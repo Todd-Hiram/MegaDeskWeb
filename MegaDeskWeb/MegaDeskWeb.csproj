@@ -92,20 +92,33 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\desk.jpg" />
+    <Content Include="Styles\MegaDesk.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Desk.cs" />
+    <Compile Include="Models\DeskQuote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\QuoteRepository.cs" />
+    <Compile Include="Models\RushOrder.cs" />
+    <Compile Include="Models\RushOrderFactory.cs" />
+    <Compile Include="Models\SurfaceMaterial.cs" />
+    <Compile Include="Models\SurfaceMaterialFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="MegaDeskWeb.cshtml" />
+    <Content Include="AddQuote.cshtml" />
     <None Include="packages.config" />
+    <Content Include="ViewQuotes.cshtml" />
+    <Content Include="SearchQuotes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <Content Include="_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

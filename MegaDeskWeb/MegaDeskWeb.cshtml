@@ -1,5 +1,54 @@
-﻿@{
+﻿@*<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />*@
+@{
+    Layout = "~/_Layout.cshtml";
+
     var db = Database.Open("WebPagesMegaDesk");
-    var selectedData = db.Query("SELECT * FROM MegaDesk");
+    var selectedData = db.Query("SELECT * FROM Material");
     var grid = new WebGrid(source: selectedData);
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Links</title>
+    <style type="text/css">
+        .grid {
+            margin: 4px;
+            border-collapse: collapse;
+            width: 600px;
+        }
+
+            .grid th, .grid td {
+                border: 1px solid #C0C0C0;
+                padding: 5px;
+            }
+
+        .head {
+            background-color: #E8E8E8;
+            font-weight: bold;
+            color: #FFF;
+        }
+
+        .alt {
+            background-color: #E8E8E8;
+            color: #000;
+        }
+    </style>
+</head>
+<body class="mainBody">
+     
+    <div class="quoteButton " >
+        <a href="~/AddQuote.cshtml" class="button">Add New Quote</a>
+        <br />
+        <a href="~/ViewQuotes.cshtml" class="button">View Quotes</a>
+        <br />
+        <a href="~/SearchQuotes.cshtml" class="button">Search Quotes</a>
+        <br />
+
+    </div>
+    <div class="deskImage ">
+        <img src="~/Assets/desk.jpg" />
+    </div>
+    
+</body>
+</html>
