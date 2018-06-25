@@ -14,22 +14,49 @@
         <p style="font-size:1.5em; float:left;" class="spaceForm">Customer Name: </p>
         <input type="text" style="float:left; margin-top:6px;" name="fname" placeholder=""><br>
         <br />
-        <p style="font-size:1.5em;float:left" class="spaceForm">Size of Desk:  </p>
-        <p class="float:left;">Width:</p><input type="number" style="float:left;width:50px; margin-top:6px;" name="deskSize"><br>
-       <p class="float:left">Depth:</p> <input type="number" style="float:left; margin-top:6px; width:50px;" name="deskDepth" size="4" maxlength="4" placeholder=""><br>
+        <div class="sizeGroup">
+            <p style="font-size:1.5em;float:left" class="spaceForm">Size of Desk:  </p>
+            <p class="float:left;" style="margin-right:20px;">Width:</p><input type="number" style="float:left;width:50px; height:20px;margin-top:10px;margin-right:80px;" name="deskSize"><br>
+            <p class="float:left" style="margin-right:40px;">Depth:</p> <input type="number" style="float:left; margin-top:10px; height:20px; width:50px;margin-right:80px" name="deskDepth" size="4" maxlength="4" placeholder=""><br>
+        </div>
         <br />
-        <p style="font-size:1.5em " class="spaceForm"># of Drawers </p>
-        <br />
-        <p style="font-size:1.5em" class="spaceForm">Surface Material: </p>
-        <br />
-        <p style="font-size:1.5em" class="spaceForm">Rush Order Options: </p>
-        <br />
-        <p style="font-size:1.5em" class="spaceForm">Price of Quotes: </p>
-        <br />
-        <button>Calculate</button>
-        <button>Submit</button>
-        <button>Cancel</button>
+        <p style="font-size:1.5em;float:left; " class="spaceForm"># of Drawers: </p>
 
+        <input type="number" style="float:left;width:50px; margin-top:10px;margin-left:30px;" />
+        <br />
+        <br />
+        <br />
+        <p style="font-size:1.5em;float:left;" class="spaceForm">Surface Material: </p>
+        <select name="materials" style="margin-top:3px; height:30px; margin-left:10px ">
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="fiat">Fiat</option>
+            <option value="audi">Audi</option>
+        </select>
+        <br />
+        <br />
+        <p style="font-size:1.5em; float:left;" class="spaceForm">Rush Order Options: </p>
+        <select name="days" style="margin-top:3px; height:30px; margin-left:10px ">
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="fiat">Fiat</option>
+            <option value="audi">Audi</option>
+        </select>
+        <br />
+        <br />
+        <p style="font-size:1.5em; float:left;" class="spaceForm">Price of Quotes: </p>
+        <input type="text" readonly style="float:left; margin-top:7px;" />
+        <br />
+        <br />
+        <br />
+        
+        <button style="margin-top:5px;">Calculate</button>
+        <div class="rightButtons">
+            <button style="float:right; margin-right:10px;">Submit</button>
+            <form action="~/MegaDeskWeb.cshtml" style="float:right;margin-right:25px;">
+                <button type="submit">Cancel</button>
+            </form>
+        </div>
     </div>
 
 </body>

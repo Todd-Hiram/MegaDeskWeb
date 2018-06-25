@@ -49,7 +49,7 @@ html {
 }
 
 body {
-    height: 60%;
+    height: 70%;
     height:auto;
     font-family: 'Trebuchet MS', 'Arial', 'Helvetica', 'sans-serif';
     font-size: 10pt;
@@ -59,6 +59,16 @@ body {
 }
 
 
+.sizeGroup {
+    display:flex;
+    justify-content:flex-start;
+    justify-content:space-between;
+        
+}
+
+.rightButtons {
+    
+}
 
 
 .spaceForm {
@@ -85,9 +95,9 @@ h2 {
     width: 80%;
     background-color: #AC3B61;
     color: White;
-    display:flex;
-    align-content:center;
-    
+    display: flex;
+    align-content: center;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
 #header h1 {
@@ -98,7 +108,7 @@ h2 {
 
 #main {
     width: 80%;
-    height:320px !important;
+    height:425px !important;
     padding: 8px;
     padding-bottom: 4em;
     background-color: White;
@@ -111,6 +121,7 @@ h2 {
     padding: 8px;
     margin-top: -2em;
     background-color: LightGray;
+
 }
 
 .head {
