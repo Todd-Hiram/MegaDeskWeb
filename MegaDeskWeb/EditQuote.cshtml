@@ -11,6 +11,37 @@
     var date = DateTime.Now;
 
     int total = 0;
+    var quoteId = "";
+
+    if (!IsPost)
+    {
+        if (!Request.QueryString["Id"].IsEmpty() && Request.QueryString["Id"].IsInt())
+        {
+            quoteId = Request.QueryString["Id"];
+            var db = Database.Open("MegaDeskWeb");
+            var dbCommand = "SELECT * FROM DeskQuote WHERE ID = @0";
+            var row = db.QuerySingle(dbCommand, quoteId);
+
+            if (row != null)
+            {
+                width = row.width;
+                depth = row.depth;
+                numDrawers = row.numDrawers;
+                material = row.material;
+                rushOption = row.rushOrder;
+                customerName = row.customerName;
+                // date?
+            }
+            else
+            {
+                Validation.AddFormError("No quote was selected.");
+            }
+        }
+        else
+        {
+            Validation.AddFormError("No quote was selected.");
+        }
+    }
 
     if (IsPost)
     {
@@ -19,6 +50,7 @@
         Validation.RequireField("depth", "Depth is a required field.");
         Validation.RequireField("numDrawers", "Number of Drawers is a required field.");
         Validation.RequireField("material", "Material is a required field.");
+        Validation.RequireField("quoteid", "No ID was submitted!");
 
         quote.desk.width = Int32.Parse(Request.Form["width"]);
         width = quote.desk.width;
@@ -35,10 +67,11 @@
         quote.date = DateTime.Now;
         date = quote.date;
         total = quote.calcTotal();
+        quoteId = Request.Form["quoteId"];
 
         var db = Database.Open("MegaDeskWeb");
-        var insertCommand = "INSERT INTO DeskQuote (width, depth, numDrawers, material, rushOrder, customerName, date, total) Values(@0, @1, @2, @3, @4, @5, @6, @7)";
-        db.Execute(insertCommand, width, depth, numDrawers, material, rushOption, customerName, date, total);
+        var updateCommand = "UPDATE DeskQuote SET width=@0, depth=@1, numDrawers=@2, material=@3, rushOrder=@4, customerName=@5, date=@6, total=@7 WHERE Id=@8";
+        db.Execute(updateCommand, width, depth, numDrawers, material, rushOption, customerName, date, total, quoteId);
         Response.Redirect("~/ViewQuotes");
     }
 }
@@ -51,28 +84,28 @@
 
     <form method="POST">
         <label for="customerName">Customer Name:</label>
-        <input type="text" name="customerName" value="@Request.Form["customerName"]" />
+        <input type="text" name="customerName" value="@customerName" />
         <br />
 
         <p>Size of Desk</p>
         <label for="width">Width:</label>
-        <input type="number" name="width" min="24" max="96" value="@Request.Form["width"]" />
+        <input type="number" name="width" min="24" max="96" value="@width" />
         @Html.ValidationMessage("width")
         <br />
         <br />
         <label for="depth">Depth:</label>
-        <input type="number" name="depth" min="12" max="48" value="@Request.Form["depth"]" />
+        <input type="number" name="depth" min="12" max="48" value="@depth" />
         @Html.ValidationMessage("depth")
         <br />
         <br />
         <label for="numDrawers">Number of Drawers:</label>
-        <input type="number" name="numDrawers" min="0" max="20" value="@Request.Form["numDrawers"]" />
+        <input type="number" name="numDrawers" min="0" max="20" value="@numDrawers" />
         @Html.ValidationMessage("numDrawers")
         <br />
         <br />
 
         <label for="material">Material:</label>
-        <select name="material" value="@Request.Form["material"]">
+        <select name="material" value="@material">
             <option value="laminate">Laminate</option>
             <option value="oak">Oak</option>
             <option value="rosewood">Rosewood</option>
@@ -84,7 +117,7 @@
         <br />
 
         <label for="rushOrder">Rush Order Options:</label>
-        <select name="rushOrder" value="@Request.Form["rushOrder"]">
+        <select name="rushOrder" value="@rushOption">
             <option value="none">No Rush</option>
             <option value="three">Three-Day Rush</option>
             <option value="five">Five-Day Rush</option>
@@ -94,9 +127,12 @@
         <br />
         <br />
 
+        <input type="hidden" name="quoteid" value="@quoteId" />
+        @Html.ValidationMessage("quoteid")
+
         <input type="hidden" name="date" value="@DateTime.Now" />
 
-        <input type="submit" value="Add Quote" />
+        <input type="submit" value="Update" />
 
     </form>
 

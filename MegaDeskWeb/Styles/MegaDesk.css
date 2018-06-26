@@ -22,8 +22,8 @@ a {
 }
 
 .quoteButton {
-    width:50%;
-    float:left;
+    display: flex;
+    flex-direction: row;
 }
 
 .deskImage {

@@ -1,14 +1,41 @@
 ﻿@{
     Layout = "~/_Layout.cshtml";
+    var db = Database.Open("MegaDeskWeb");
+    var selectCommand = "SELECT * FROM DeskQuote";
+    var searchTerm = "";
+
+    if (!Request.QueryString["search"].IsEmpty())
+    {
+        selectCommand = "SELECT * FROM DeskQuote WHERE customerName LIKE @0";
+        searchTerm = Request.QueryString["search"];
+    }
+    var selectedData = db.Query(selectCommand, searchTerm);
+    var grid = new WebGrid(source: selectedData, defaultSort: "Id", rowsPerPage: 10);
 }
-
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Search Quotes</title>
 </head>
 <body>
+    <header></header>
+    <main>
+        <h1>Search Quotes</h1>
+        <form action="" method="get">
+            <label for="search">Search by customer name:</label>
+            <input type="text" name="search" value="@Request.QueryString["search"]" />
+            <input type="submit" name="submit" value="Go" />
+        </form>
+        <div>
+            @grid.GetHtml()
+        </div>
+    </main>
+
+    <div class="quoteButton">
+        <a href="~/AddQuote.cshtml" class="button">Add New Quote</a>
+        <a href="~/ViewQuotes.cshtml" class="button">View Quotes</a>
+        <br />
+    </div> <!-- quoteButton -->
 
 </body>
 </html>
