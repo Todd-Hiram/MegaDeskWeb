@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "~/_Layout.cshtml";
 
-    MegaDeskWeb.App_Code.DeskQuote quote = new MegaDeskWeb.App_Code.DeskQuote();
+    
     var width = 0;
     var depth = 0;
     var numDrawers = 0;
@@ -10,7 +10,7 @@
     var customerName = "";
     var date = DateTime.Now;
 
-    int total = 0;
+    
     var quoteId = "";
 
     if (!IsPost)
@@ -43,35 +43,14 @@
         }
     }
 
-    if (IsPost)
+   
+
+    if (IsPost && !Request["deleteQuote"].IsEmpty())
     {
-        Validation.RequireField("customerName", "Customer Name is a required field.");
-        Validation.RequireField("width", "Width is a required field.");
-        Validation.RequireField("depth", "Depth is a required field.");
-        Validation.RequireField("numDrawers", "Number of Drawers is a required field.");
-        Validation.RequireField("material", "Material is a required field.");
-        Validation.RequireField("quoteid", "No ID was submitted!");
-
-        quote.desk.width = Int32.Parse(Request.Form["width"]);
-        width = quote.desk.width;
-        quote.desk.depth = Int32.Parse(Request.Form["depth"]);
-        depth = quote.desk.depth;
-        quote.desk.numDrawers = Int32.Parse(Request.Form["numDrawers"]);
-        numDrawers = quote.desk.numDrawers;
-        quote.desk.material = Request.Form["material"];
-        material = quote.desk.material;
-        quote.rushOption = Request.Form["rushOrder"];
-        rushOption = quote.rushOption;
-        quote.customerName = Request.Form["customerName"];
-        customerName = quote.customerName;
-        quote.date = DateTime.Now;
-        date = quote.date;
-        total = quote.calcTotal();
         quoteId = Request.Form["quoteId"];
-
         var db = Database.Open("MegaDeskWeb");
-        var updateCommand = "UPDATE DeskQuote SET width=@0, depth=@1, numDrawers=@2, material=@3, rushOrder=@4, customerName=@5, date=@6, total=@7 WHERE Id=@8";
-        db.Execute(updateCommand, width, depth, numDrawers, material, rushOption, customerName, date, total, quoteId);
+        var deleteCommand = "DELETE FROM DeskQuote WHERE ID = @0";
+        db.Execute(deleteCommand, quoteId);
         Response.Redirect("~/ViewQuotes");
     }
 }
@@ -84,55 +63,55 @@
 
     <form method="POST">
         <label for="customerName">Customer Name:</label>
-        <input type="text" name="customerName" value="@customerName" />
+        <input type="text" name="customerName" readonly disabled value="@customerName" />
         <br />
 
         <p>Size of Desk</p>
         <label for="width">Width:</label>
-        <input type="number" name="width" min="24" max="96" value="@width" />
-        @Html.ValidationMessage("width")
+        <input type="number" name="width" readonly disabled min="24" max="96" value="@width" />
+        
         <br />
         <br />
         <label for="depth">Depth:</label>
-        <input type="number" name="depth" min="12" max="48" value="@depth" />
-        @Html.ValidationMessage("depth")
+        <input type="number" name="depth" readonly disabled min="12" max="48" value="@depth" />
+       
         <br />
         <br />
         <label for="numDrawers">Number of Drawers:</label>
-        <input type="number" name="numDrawers" min="0" max="20" value="@numDrawers" />
-        @Html.ValidationMessage("numDrawers")
+        <input type="number" name="numDrawers" min="0" max="20" readonly disabled value="@numDrawers" />
+        
         <br />
         <br />
 
         <label for="material">Material:</label>
-        <select name="material" value="@material">
+        <select name="material" readonly disabled value="@material">
             <option value="laminate">Laminate</option>
             <option value="oak">Oak</option>
             <option value="rosewood">Rosewood</option>
             <option value="veneer">Veneer</option>
             <option value="pine">Pine</option>
         </select>
-        @Html.ValidationMessage("material")
+     
         <br />
         <br />
 
         <label for="rushOrder">Rush Order Options:</label>
-        <select name="rushOrder" value="@rushOption">
+        <select name="rushOrder" readonly disabled value="@rushOption">
             <option value="none">No Rush</option>
             <option value="three">Three-Day Rush</option>
             <option value="five">Five-Day Rush</option>
             <option value="seven">Seven-Day Rush</option>
         </select>
-        @Html.ValidationMessage("rushOrder")
+        
         <br />
         <br />
 
         <input type="hidden" name="quoteid" value="@quoteId" />
-        @Html.ValidationMessage("quoteid")
+        
 
         <input type="hidden" name="date" value="@DateTime.Now" />
 
-        <input type="submit" value="Update" />
+        <input type="submit" name="deleteQuote" value="Delete"  />
 
     </form>
 
@@ -141,6 +120,7 @@
         <br />
         <a href="~/SearchQuotes.cshtml" class="button">Search Quotes</a>
         <br />
+        <a href="~/MegaDeskWeb.cshtml" class="button">Home</a>
     </div> <!-- quoteButton -->
 
 </body>
