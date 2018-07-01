@@ -28,7 +28,7 @@
                 depth = row.depth;
                 numDrawers = row.numDrawers;
                 material = row.material;
-                rushOption = row.rushOrder;
+                rushOption = row.rushOption;
                 customerName = row.customerName;
                 // date?
             }
@@ -123,7 +123,7 @@
             <option value="five">Five-Day Rush</option>
             <option value="seven">Seven-Day Rush</option>
         </select>
-        @Html.ValidationMessage("rushOrder")
+        @Html.ValidationMessage("rushOption")
         <br />
         <br />
 

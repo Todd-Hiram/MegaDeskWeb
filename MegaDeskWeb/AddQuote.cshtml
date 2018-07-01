@@ -12,13 +12,14 @@
 
     int total = 0;
 
-    if (IsPost)
+    Validation.RequireField("customerName", "Customer Name is a required field.");
+    Validation.RequireField("width", "Width is a required field.");
+    Validation.RequireField("depth", "Depth is a required field.");
+    Validation.RequireField("numDrawers", "Number of Drawers is a required field.");
+    Validation.RequireField("material", "Material is a required field.");
+
+    if (IsPost && Validation.IsValid())
     {
-        Validation.RequireField("customerName", "Customer Name is a required field.");
-        Validation.RequireField("width", "Width is a required field.");
-        Validation.RequireField("depth", "Depth is a required field.");
-        Validation.RequireField("numDrawers", "Number of Drawers is a required field.");
-        Validation.RequireField("material", "Material is a required field.");
 
         quote.desk.width = Int32.Parse(Request.Form["width"]);
         width = quote.desk.width;
@@ -52,6 +53,7 @@
     <form method="POST">
         <label for="customerName">Customer Name:</label>
         <input type="text" name="customerName" value="@Request.Form["customerName"]" />
+        @Html.ValidationMessage("customerName")
         <br />
 
         <p>Size of Desk</p>

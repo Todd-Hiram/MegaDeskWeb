@@ -6,7 +6,7 @@
     var depth = 0;
     var numDrawers = 0;
     var material = "";
-    var rushOption = "";
+    var rushOrder = "";
     var customerName = "";
     var date = DateTime.Now;
 
@@ -28,7 +28,7 @@
                 depth = row.depth;
                 numDrawers = row.numDrawers;
                 material = row.material;
-                rushOption = row.rushOrder;
+                rushOrder = row.rushOrder;
                 customerName = row.customerName;
                 // date?
             }
@@ -96,7 +96,7 @@
         <br />
 
         <label for="rushOrder">Rush Order Options:</label>
-        <select name="rushOrder" readonly disabled value="@rushOption">
+        <select name="rushOrder" readonly disabled value="@rushOrder">
             <option value="none">No Rush</option>
             <option value="three">Three-Day Rush</option>
             <option value="five">Five-Day Rush</option>
