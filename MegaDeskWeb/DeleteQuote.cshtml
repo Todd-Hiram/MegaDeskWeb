@@ -1,0 +1,117 @@
+﻿@{
+    Layout = "~/_Layout.cshtml";
+
+    MegaDeskWeb.App_Code.DeskQuote quote = new MegaDeskWeb.App_Code.DeskQuote();
+    var width = 0;
+    var depth = 0;
+    var numDrawers = 0;
+    var material = "";
+    var rushOption = "";
+    var customerName = "";
+    var date = DateTime.MinValue;
+
+    decimal total = 0;
+    var quoteId = "";
+
+    if (!IsPost)
+    {
+        if (!Request.QueryString["Id"].IsEmpty() && Request.QueryString["Id"].IsInt())
+        {
+            quoteId = Request.QueryString["Id"];
+            var db = Database.Open("MegaDeskWeb");
+            var dbCommand = "SELECT * FROM DeskQuote WHERE ID = @0";
+            var row = db.QuerySingle(dbCommand, quoteId);
+
+            if (row != null)
+            {
+                width = row.width;
+                depth = row.depth;
+                numDrawers = row.numDrawers;
+                material = row.material;
+                rushOption = row.rushOrder;
+                customerName = row.customerName;
+                if (null != row.date)
+                {
+                    date = row.date;
+                }
+                total = row.total;
+            }
+            else
+            {
+                Validation.AddFormError("No quote was selected.");
+            }
+        }
+        else
+        {
+            Validation.AddFormError("No quote was selected.");
+        }
+    }
+
+    if (IsPost && !Request["buttonDelete"].IsEmpty())
+    {
+        quoteId = Request.Form["quoteId"];
+        var db = Database.Open("MegaDeskWeb");
+        var deleteCommand = "DELETE FROM DeskQuote WHERE Id = @0";
+        db.Execute(deleteCommand, quoteId);
+        Response.Redirect("~/ViewQuotes");
+    }
+}
+<html>
+<head>
+    <title>Delete a Movie</title>
+</head>
+<body>
+    <h1>Delete a Quote</h1>
+    @Html.ValidationSummary()
+    <p><a href="~/ViewQuotes">Return to quote listing</a></p>
+
+    <form method="post">
+        <fieldset>
+            <legend>Quote Information</legend>
+
+            <p>
+                <span>Width:</span>
+                <span>@width</span>
+            </p>
+
+            <p>
+                <span>Depth:</span>
+                <span>@depth</span>
+            </p>
+
+            <p>
+                <span>Number of Drawers:</span>
+                <span>@numDrawers</span>
+            </p>
+
+            <p>
+                <span>Material:</span>
+                <span>@material</span>
+            </p>
+
+            <p>
+                <span>Rush Order:</span>
+                <span>@rushOption</span>
+            </p>
+
+            <p>
+                <span>Customer Name:</span>
+                <span>@customerName</span>
+            </p>
+
+            <p>
+                <span>Date:</span>
+                <span>@date</span>
+            </p>
+
+            <p>
+                <span>Total:</span>
+                <span>@total</span>
+            </p>
+
+            <input type="hidden" name="quoteid" value="@quoteId" />
+            <p><input type="submit" name="buttonDelete" value="Delete Quote" /></p>
+        </fieldset>
+    </form>
+</body>
+</html>

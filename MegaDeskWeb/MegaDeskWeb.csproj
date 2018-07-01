@@ -105,6 +105,7 @@
   <ItemGroup>
     <Content Include="MegaDeskWeb.cshtml" />
     <Content Include="AddQuote.cshtml" />
+    <Content Include="DeleteQuote.cshtml" />
     <None Include="packages.config" />
     <Content Include="ViewQuotes.cshtml" />
     <Content Include="SearchQuotes.cshtml" />

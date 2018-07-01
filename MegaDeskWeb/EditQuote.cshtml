@@ -52,27 +52,30 @@
         Validation.RequireField("material", "Material is a required field.");
         Validation.RequireField("quoteid", "No ID was submitted!");
 
-        quote.desk.width = Int32.Parse(Request.Form["width"]);
-        width = quote.desk.width;
-        quote.desk.depth = Int32.Parse(Request.Form["depth"]);
-        depth = quote.desk.depth;
-        quote.desk.numDrawers = Int32.Parse(Request.Form["numDrawers"]);
-        numDrawers = quote.desk.numDrawers;
-        quote.desk.material = Request.Form["material"];
-        material = quote.desk.material;
-        quote.rushOption = Request.Form["rushOrder"];
-        rushOption = quote.rushOption;
-        quote.customerName = Request.Form["customerName"];
-        customerName = quote.customerName;
-        quote.date = DateTime.Now;
-        date = quote.date;
-        total = quote.calcTotal();
-        quoteId = Request.Form["quoteId"];
+        if (Validation.IsValid())
+        {
+            quote.desk.width = Int32.Parse(Request.Form["width"]);
+            width = quote.desk.width;
+            quote.desk.depth = Int32.Parse(Request.Form["depth"]);
+            depth = quote.desk.depth;
+            quote.desk.numDrawers = Int32.Parse(Request.Form["numDrawers"]);
+            numDrawers = quote.desk.numDrawers;
+            quote.desk.material = Request.Form["material"];
+            material = quote.desk.material;
+            quote.rushOption = Request.Form["rushOrder"];
+            rushOption = quote.rushOption;
+            quote.customerName = Request.Form["customerName"];
+            customerName = quote.customerName;
+            quote.date = DateTime.Now;
+            date = quote.date;
+            total = quote.calcTotal();
+            quoteId = Request.Form["quoteId"];
 
-        var db = Database.Open("MegaDeskWeb");
-        var updateCommand = "UPDATE DeskQuote SET width=@0, depth=@1, numDrawers=@2, material=@3, rushOrder=@4, customerName=@5, date=@6, total=@7 WHERE Id=@8";
-        db.Execute(updateCommand, width, depth, numDrawers, material, rushOption, customerName, date, total, quoteId);
-        Response.Redirect("~/ViewQuotes");
+            var db = Database.Open("MegaDeskWeb");
+            var updateCommand = "UPDATE DeskQuote SET width=@0, depth=@1, numDrawers=@2, material=@3, rushOrder=@4, customerName=@5, date=@6, total=@7 WHERE Id=@8";
+            db.Execute(updateCommand, width, depth, numDrawers, material, rushOption, customerName, date, total, quoteId);
+            Response.Redirect("~/ViewQuotes");
+        }
     }
 }
 <!DOCTYPE html>

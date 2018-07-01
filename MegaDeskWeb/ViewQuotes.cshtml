@@ -22,21 +22,24 @@
            alternatingRowStyle: "alt",
            columns: grid.Columns(
                grid.Column(format: @<a href="~/EditQuote?id=@item.Id">Edit</a>),
-               grid.Column("width"),
-               grid.Column("depth"),
-               grid.Column("numDrawers"),
-               grid.Column("material"),
-               grid.Column("rushOrder"),
-               grid.Column("customerName"),
-               grid.Column("date"),
-               grid.Column("total")
-         )
-     )
+                           grid.Column("width"),
+                           grid.Column("depth"),
+                           grid.Column("numDrawers"),
+                           grid.Column("material"),
+                           grid.Column("rushOrder"),
+                           grid.Column("customerName"),
+                           grid.Column("date"),
+                           grid.Column("total"),
+                           grid.Column(format: @<a href="~/DeleteQuote?id=@item.Id">Delete</a>)
+                   )
+               )
         </div>
     </main>
 
     <div class="quoteButton">
-        <a href="~/AddQuote.cshtml" class="button">Add New Quote</a>
+        <a href="~/MegaDeskWeb.cshtml" class="button">Home</a>
+        <br />
+        <a href="~/ViewQuotes.cshtml" class="button">View Quotes</a>
         <br />
         <a href="~/SearchQuotes.cshtml" class="button">Search Quotes</a>
         <br />

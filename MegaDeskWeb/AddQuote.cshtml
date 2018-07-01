@@ -12,13 +12,16 @@
 
     int total = 0;
 
-    if (IsPost)
+    Validation.RequireField("customerName", "Customer Name is a required field.");
+    Validation.RequireField("width", "Width is a required field.");
+    Validation.RequireField("depth", "Depth is a required field.");
+    Validation.RequireField("numDrawers", "Number of Drawers is a required field.");
+    Validation.RequireField("material", "Material is a required field.");
+    Validation.RequireField("rushOrder", "Rush Order is a required field.");
+
+    if (IsPost && Validation.IsValid())
     {
-        Validation.RequireField("customerName", "Customer Name is a required field.");
-        Validation.RequireField("width", "Width is a required field.");
-        Validation.RequireField("depth", "Depth is a required field.");
-        Validation.RequireField("numDrawers", "Number of Drawers is a required field.");
-        Validation.RequireField("material", "Material is a required field.");
+
 
         quote.desk.width = Int32.Parse(Request.Form["width"]);
         width = quote.desk.width;
@@ -53,6 +56,7 @@
         <label for="customerName">Customer Name:</label>
         <input type="text" name="customerName" value="@Request.Form["customerName"]" />
         <br />
+        @Html.ValidationMessage("customerName")
 
         <p>Size of Desk</p>
         <label for="width">Width:</label>
@@ -101,6 +105,8 @@
     </form>
 
     <div class="quoteButton">
+        <a href="~/MegaDeskWeb.cshtml" class="button">Home</a>
+        <br />
         <a href="~/ViewQuotes.cshtml" class="button">View Quotes</a>
         <br />
         <a href="~/SearchQuotes.cshtml" class="button">Search Quotes</a>
