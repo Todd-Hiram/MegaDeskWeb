@@ -1,16 +1,16 @@
 ﻿@{
     Layout = "~/_Layout.cshtml";
 
-    
+    MegaDeskWeb.App_Code.DeskQuote quote = new MegaDeskWeb.App_Code.DeskQuote();
     var width = 0;
     var depth = 0;
     var numDrawers = 0;
     var material = "";
-    var rushOrder = "";
+    var rushOption = "";
     var customerName = "";
-    var date = DateTime.Now;
+    var date = DateTime.MinValue;
 
-    
+    decimal total = 0;
     var quoteId = "";
 
     if (!IsPost)
@@ -28,9 +28,13 @@
                 depth = row.depth;
                 numDrawers = row.numDrawers;
                 material = row.material;
-                rushOrder = row.rushOrder;
+                rushOption = row.rushOrder;
                 customerName = row.customerName;
-                // date?
+                if (null != row.date)
+                {
+                    date = row.date;
+                }
+                total = row.total;
             }
             else
             {
@@ -43,85 +47,71 @@
         }
     }
 
-   
-
-    if (IsPost && !Request["deleteQuote"].IsEmpty())
+    if (IsPost && !Request["buttonDelete"].IsEmpty())
     {
         quoteId = Request.Form["quoteId"];
         var db = Database.Open("MegaDeskWeb");
-        var deleteCommand = "DELETE FROM DeskQuote WHERE ID = @0";
+        var deleteCommand = "DELETE FROM DeskQuote WHERE Id = @0";
         db.Execute(deleteCommand, quoteId);
         Response.Redirect("~/ViewQuotes");
     }
 }
-<!DOCTYPE html>
-<html class="addQuote">
+<html>
 <head>
-    <title></title>
+    <title>Delete a Movie</title>
 </head>
-<body class="AddQuoteBody">
+<body>
+    <h1>Delete a Quote</h1>
+    @Html.ValidationSummary()
+    <p><a href="~/ViewQuotes">Return to quote listing</a></p>
 
-    <form method="POST">
-        <label for="customerName">Customer Name:</label>
-        <input type="text" name="customerName" readonly disabled value="@customerName" />
-        <br />
+    <form method="post">
+        <fieldset>
+            <legend>Quote Information</legend>
 
-        <p>Size of Desk</p>
-        <label for="width">Width:</label>
-        <input type="number" name="width" readonly disabled min="24" max="96" value="@width" />
-        
-        <br />
-        <br />
-        <label for="depth">Depth:</label>
-        <input type="number" name="depth" readonly disabled min="12" max="48" value="@depth" />
-       
-        <br />
-        <br />
-        <label for="numDrawers">Number of Drawers:</label>
-        <input type="number" name="numDrawers" min="0" max="20" readonly disabled value="@numDrawers" />
-        
-        <br />
-        <br />
+            <p>
+                <span>Width:</span>
+                <span>@width</span>
+            </p>
 
-        <label for="material">Material:</label>
-        <select name="material" readonly disabled value="@material">
-            <option value="laminate">Laminate</option>
-            <option value="oak">Oak</option>
-            <option value="rosewood">Rosewood</option>
-            <option value="veneer">Veneer</option>
-            <option value="pine">Pine</option>
-        </select>
-     
-        <br />
-        <br />
+            <p>
+                <span>Depth:</span>
+                <span>@depth</span>
+            </p>
 
-        <label for="rushOrder">Rush Order Options:</label>
-        <select name="rushOrder" readonly disabled value="@rushOrder">
-            <option value="none">No Rush</option>
-            <option value="three">Three-Day Rush</option>
-            <option value="five">Five-Day Rush</option>
-            <option value="seven">Seven-Day Rush</option>
-        </select>
-        
-        <br />
-        <br />
+            <p>
+                <span>Number of Drawers:</span>
+                <span>@numDrawers</span>
+            </p>
 
-        <input type="hidden" name="quoteid" value="@quoteId" />
-        
+            <p>
+                <span>Material:</span>
+                <span>@material</span>
+            </p>
 
-        <input type="hidden" name="date" value="@DateTime.Now" />
+            <p>
+                <span>Rush Order:</span>
+                <span>@rushOption</span>
+            </p>
 
-        <input type="submit" name="deleteQuote" value="Delete"  />
+            <p>
+                <span>Customer Name:</span>
+                <span>@customerName</span>
+            </p>
 
+            <p>
+                <span>Date:</span>
+                <span>@date</span>
+            </p>
+
+            <p>
+                <span>Total:</span>
+                <span>@total</span>
+            </p>
+
+            <input type="hidden" name="quoteid" value="@quoteId" />
+            <p><input type="submit" name="buttonDelete" value="Delete Quote" /></p>
+        </fieldset>
     </form>
-
-    <div class="quoteButton">
-        <a href="~/ViewQuotes.cshtml" class="button">Back</a>
-        <br />
-        <a href="~/SearchQuotes.cshtml" class="button">Search Quotes</a>
-        <br />
-        <a href="~/MegaDeskWeb.cshtml" class="button">Home</a>
-    </div> <!-- quoteButton -->
-
 </body>
 </html>
