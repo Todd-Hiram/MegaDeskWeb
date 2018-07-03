@@ -1,118 +1,235 @@
 ﻿@{
+
     Layout = "~/_Layout.cshtml";
 
+
+
     MegaDeskWeb.App_Code.DeskQuote quote = new MegaDeskWeb.App_Code.DeskQuote();
+
     var width = 0;
+
     var depth = 0;
+
     var numDrawers = 0;
+
     var material = "";
+
     var rushOption = "";
+
     var customerName = "";
+
     var date = DateTime.Now;
+
+
 
     int total = 0;
 
+
+
     Validation.RequireField("customerName", "Customer Name is a required field.");
+
     Validation.RequireField("width", "Width is a required field.");
+
     Validation.RequireField("depth", "Depth is a required field.");
+
     Validation.RequireField("numDrawers", "Number of Drawers is a required field.");
+
     Validation.RequireField("material", "Material is a required field.");
+
     Validation.RequireField("rushOrder", "Rush Order is a required field.");
 
+
+
     if (IsPost && Validation.IsValid())
+
     {
 
 
+
+
+
         quote.desk.width = Int32.Parse(Request.Form["width"]);
+
         width = quote.desk.width;
+
         quote.desk.depth = Int32.Parse(Request.Form["depth"]);
+
         depth = quote.desk.depth;
+
         quote.desk.numDrawers = Int32.Parse(Request.Form["numDrawers"]);
+
         numDrawers = quote.desk.numDrawers;
+
         quote.desk.material = Request.Form["material"];
+
         material = quote.desk.material;
+
         quote.rushOption = Request.Form["rushOrder"];
+
         rushOption = quote.rushOption;
+
         quote.customerName = Request.Form["customerName"];
+
         customerName = quote.customerName;
+
         quote.date = DateTime.Now;
+
         date = quote.date;
+
         total = quote.calcTotal();
 
+
+
         var db = Database.Open("MegaDeskWeb");
+
         var insertCommand = "INSERT INTO DeskQuote (width, depth, numDrawers, material, rushOrder, customerName, date, total) Values(@0, @1, @2, @3, @4, @5, @6, @7)";
+
         db.Execute(insertCommand, width, depth, numDrawers, material, rushOption, customerName, date, total);
+
         Response.Redirect("~/ViewQuotes");
+
     }
+
 }
+
 <!DOCTYPE html>
+
 <html class="addQuote">
+
 <head>
+
     <title></title>
+
 </head>
+
 <body class="AddQuoteBody">
 
+
+
     <form method="POST">
+
         <label for="customerName">Customer Name:</label>
-        <input type="text" name="customerName" value="@Request.Form["customerName"]" />
+
+        <input type="text" name="customerName" value="@Request.Form[" customerName"]" />
+
         <br />
+
         @Html.ValidationMessage("customerName")
 
+
+
         <p>Size of Desk</p>
+
         <label for="width">Width:</label>
-        <input type="number" name="width" min="24" max="96" value="@Request.Form["width"]" />
+
+        <input type="number" name="width" min="24" max="96" value="@Request.Form[" width"]" />
+
         @Html.ValidationMessage("width")
+
         <br />
+
         <br />
+
         <label for="depth">Depth:</label>
-        <input type="number" name="depth" min="12" max="48" value="@Request.Form["depth"]" />
+
+        <input type="number" name="depth" min="12" max="48" value="@Request.Form[" depth"]" />
+
         @Html.ValidationMessage("depth")
+
         <br />
+
         <br />
+
         <label for="numDrawers">Number of Drawers:</label>
-        <input type="number" name="numDrawers" min="0" max="20" value="@Request.Form["numDrawers"]" />
+
+        <input type="number" name="numDrawers" min="0" max="20" value="@Request.Form[" numDrawers"]" />
+
         @Html.ValidationMessage("numDrawers")
+
         <br />
+
         <br />
+
+
 
         <label for="material">Material:</label>
-        <select name="material" value="@Request.Form["material"]">
+
+        <select name="material" value="@Request.Form[" material"]">
+
             <option value="laminate">Laminate</option>
+
             <option value="oak">Oak</option>
+
             <option value="rosewood">Rosewood</option>
+
             <option value="veneer">Veneer</option>
+
             <option value="pine">Pine</option>
+
         </select>
+
         @Html.ValidationMessage("material")
-        <br />
+
         <br />
 
+        <br />
+
+
+
         <label for="rushOrder">Rush Order Options:</label>
-        <select name="rushOrder" value="@Request.Form["rushOrder"]">
+
+        <select name="rushOrder" value="@Request.Form[" rushOrder"]">
+
             <option value="none">No Rush</option>
+
             <option value="three">Three-Day Rush</option>
+
             <option value="five">Five-Day Rush</option>
+
             <option value="seven">Seven-Day Rush</option>
+
         </select>
+
         @Html.ValidationMessage("rushOrder")
+
         <br />
+
         <br />
+
+
 
         <input type="hidden" name="date" value="@DateTime.Now" />
 
+
+
         <input type="submit" value="Add Quote" />
+
+
 
     </form>
 
+
+
     <div class="quoteButton">
+
         <a href="~/MegaDeskWeb.cshtml" class="button">Home</a>
+
         <br />
+
         <a href="~/ViewQuotes.cshtml" class="button">View Quotes</a>
+
         <br />
+
         <a href="~/SearchQuotes.cshtml" class="button">Search Quotes</a>
+
         <br />
+
         <a href="~/MegaDeskWeb.cshtml" class="button">Home</a>
+
     </div> <!-- quoteButton -->
 
+
+
 </body>
+
 </html>
